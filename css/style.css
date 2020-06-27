@@ -1,0 +1,813 @@
+/*&nbsp;&nbsp;&nbsp;html5doctor.com Reset Stylesheet (Eric Meyer's Reset Reloaded + HTML5 baseline)&nbsp;&nbsp;v1.4 2009-07-27 | Authors: Eric Meyer & Richard Clark&nbsp;&nbsp;html5doctor.com/html-5-reset-stylesheet/*/
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, figure, footer, header, hgroup, menu, nav, section, menu,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+    
+article, aside, figure, footer, header,
+hgroup, nav, section { display:block; }
+    
+nav ul { list-style:none; }
+    
+blockquote, q { quotes:none; }
+    
+blockquote:before, blockquote:after,
+q:before, q:after { content:''; content:none; }
+    
+a { margin:0; padding:0; font-size:100%; vertical-align:baseline; background:transparent; }
+    
+ins { background-color:#ff9; color:#000; text-decoration:none; }
+    
+mark { background-color:#ff9; color:#000; font-style:italic; font-weight:bold; }
+    
+del { text-decoration: line-through; }
+    
+abbr[title], dfn[title] { border-bottom:1px dotted #000; cursor:help; }
+    
+/* tables still need cellspacing="0" in the markup */
+table { border-collapse:collapse; border-spacing:0; }
+    
+hr { display:block; height:1px; border:0; border-top:1px solid #ccc; margin:1em 0; padding:0; }
+    
+input, select { vertical-align:middle; }
+/* END RESET CSS */
+
+body {
+    overflow: hidden;
+    margin: 0px !important;
+    font-family: 'Avenir','Helvetica Neue','Helvetica','Arial','Hiragino Sans','ヒラギノ角ゴシック',YuGothic,'Yu Gothic','メイリオ', Meiryo,'ＭＳ Ｐゴシック','MS PGothic';
+    font-size: 20px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+
+.text {
+    font-family: 'Avenir','Helvetica Neue','Helvetica','Arial','Hiragino Sans','ヒラギノ角ゴシック',YuGothic,'Yu Gothic','メイリオ', Meiryo,'ＭＳ Ｐゴシック','MS PGothic';
+    font-size: 20px;
+    user-select: none;
+    /* height: 24px; */
+}
+
+#remoteBox {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: auto;
+    /* max-height: 100%; */
+    /* background-color: #000; */
+    z-index: 110;
+    /* overflow-y: scroll; */
+}
+
+#remoteBox::-webkit-scrollbar {
+  display: none;
+}
+
+#remote {
+    background-color: #000;
+    width: 100%;
+    height: auto;
+}
+
+.open {
+    transform: translate(0);
+}
+
+#map {
+    position: fixed;
+    top: 0px;
+    height: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+#localBox {
+    position: absolute;
+    top: 0px;
+    left: 0px;    /* or 60px for +- display */
+    z-index: 110;
+    overflow: hidden;
+    /* width: 320px; */
+}
+
+#local_video {
+    width: 100%;
+}
+
+.videoTitle {
+    color:#ffffff;
+/*    padding: 2px 0px 2px 10px; */
+    padding: 10px 0px 10px 10px;
+    margin: 0px;
+    /* background-color:#333; */
+    background-color:#38a2c0;
+    cursor:pointer;
+    /*add by nori*/
+    min-height: 30px;
+    user-select: none;
+    overflow-x: hidden;
+    white-space: nowrap;
+    z-index: 101;
+}
+
+.remote_video{
+    width: 100%;
+}
+
+div.video_content{
+    padding:0px;
+    display:none;
+}
+
+.resize_grip {
+    width: 0;
+    height: 0;
+    bottom: 0px;
+    right: 0px;
+    border-left: 30px solid transparent;
+    border-bottom: 30px solid #37a3c0;
+    position: absolute;
+}
+
+div#subMenu {
+    display: none;
+}
+
+button.menuButton {
+    position: relative;
+    margin: 0 0 0 10px;
+}
+
+button.circle {
+	width: 67px;
+    height: 67px;
+    min-width: 67px;
+	background-color: #38a2c0;
+	border: none;
+	border-radius: 67px;
+	-moz-border-radius: 67px;
+	-webkit-border-radius: 67px;
+	color: #ffffff;
+    outline: none;
+	transition: background-color,color 0.3s ease-in;
+}
+
+.disabled_btn {
+    background-color: #a9a9a9;
+}
+
+button.circle span {
+    display: block;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    line-height: 20px;
+}
+
+img.btnImg {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+}
+
+img.btn50Img {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 50%;
+    left: 50%;
+    user-select: none;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+button.circle:active {
+    background-color: darkgray;
+}
+
+button#eraseBtn {
+    position: absolute;
+    left: 10px;
+    top: -80px;
+}
+
+#colorBtn {
+    position: absolute;
+    left: 10px;
+    top: -160px;
+}
+
+#colorDisp {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 32px;
+    height: 32px;
+    background-color: yellow;
+    border: black solid 1px;
+}
+
+#colorPicker {
+    position: absolute;
+    left: 100px;
+    top: -300px;
+    display: none;
+}
+
+button#sizeBtn {
+    position: absolute;
+    left: 10px;
+    top: -240px;
+}
+
+/* The slider itself */
+.slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px; 
+    background: gray;
+    outline: none; /* Remove outline */
+}
+
+/* The slider handle */
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: black;
+    border-radius:50%;
+}
+
+#sizeContainer {
+    position: absolute;
+    left: 80px;
+    top: -220px;
+    width: 230px;
+    display: none;
+}
+
+#slideContainer {
+    width: 190px;
+}
+
+#sliderScale {
+    margin-left: 5px;
+    margin-top: -5px;
+    font-size: 20px;
+}
+
+#sizeDisp {
+    position: absolute;
+    top: 20px;
+    left: 12px;
+    width: 40px;
+    height: 0px;
+    border-width: 1px 0px 2px 0px;
+    border-color: black;
+    border-style: solid;
+}
+
+#layerDialog {
+    position: absolute;
+    width: 375px;
+    /* height: 643px; */
+    height: 60vh;
+    left: 0px;
+    top: 50px;
+    background-image: url("/pic/dialog/dialogBase.png");
+    z-index: 100000;
+    display: none;
+    font-family: "SourceHanSans-Normal";
+    color: white;
+}
+
+#backBtn2 {
+    position: absolute;
+    left: 5px;
+    top: 0px;
+    background-color: #39a2c0;
+}
+
+#backBtn2:active {
+    background-color: #39a2c0;
+}
+
+#layerDialogTitle {
+    width: 100%;
+    height: 54px;
+    text-align: center;
+    background-color: #39a2c0;
+    font-size: 30px;
+    padding-top: 10px;
+}
+
+.layerDialog_container {
+    overflow-y: scroll;
+    height: calc(100% - 64px);
+}
+.layerDialog_container::-webkit-scrollbar {
+    display:none;
+}
+.layerDialog_container2 {
+    height: auto;
+}
+.layerDialogContent {
+    width: 100%;
+    height: 100px;
+    position: relative;
+    font-size: 20px;
+    overflow-y: auto;
+}
+
+.layerDialogContent>span {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
+
+.layerDialogContent>img {
+    position: absolute;
+    left: 290px;
+    top: 22px;
+}
+
+.layerDialogContent>input {
+    position: absolute;
+    left: 60px;
+    top: 70px;
+}
+
+/* The slider itself */
+.slider2 {
+    width: 250px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px; 
+    background-color: rgba(255,255,255,0.5);
+    outline: none; /* Remove outline */
+}
+
+/* The slider handle */
+.slider2::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius:50%;
+}
+
+.ol-attribution {
+    margin: 0px -10px -10px 0px !important;
+}
+
+#backBtn2 {
+    width: 63px;
+    height: 63px;
+}
+
+button#backBtn {
+    position: absolute;
+    left: 0px;
+    top: -80px;
+}
+
+div#writeMenu {
+    display: none;
+}
+
+div.menuDiv_before{
+    z-index: 1000;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    height: 67px;
+}
+div.menuDiv {
+    display: flex;
+    z-index: 1000;
+    /* position: absolute; */
+    position: relative;
+    left: 10px;
+    bottom: 0px;
+    height: 80px;
+    /* overflow-x: hidden; */
+}
+div.menuDiv::-webkit-scrollbar {
+    display: none;
+}
+
+.subMenu_container {
+    position: fixed;
+    bottom: 0px;
+    height: 80px;
+    width: 100vw;
+    white-space: nowrap;
+    /* overflow-x: auto; */
+    z-index: 1;
+    background-color: rgba(56,162,192,0.3);
+    transition: color 1s erase;
+}
+.subMenu_container:hover {
+    background-color: rgba(56,162,162,0.6);
+}
+.subMenu_container2 {
+    position: fixed;
+    bottom: 0px;
+    height: 80px;
+    width: 100vw;
+    white-space: nowrap;
+    overflow-x: auto;
+    z-index: 1;
+    background-color: rgba(56,162,192,0.3);
+    transition: color 1s erase;
+    scrollbar-width: none;
+}
+.subMenu_container2:hover {
+    background-color: rgba(56,162,192,0.6);
+}
+.subMenu_container2::-webkit-scrollbar {
+    display:none;
+}
+
+div#weathMenu {
+    display: none;
+}
+
+button#weathTimeBtn {
+    position: absolute;
+    left: 10px;
+    top: -80px;
+}
+
+#timeContainer {
+    position: absolute;
+    left: 85px;
+    top: -62px;
+    width: 250px;
+    display: none;
+}
+
+#timeSlideContainer {
+    width: 240px;
+}
+
+.timeScale {
+    /*
+    margin-left: -10px;
+    margin-top: -5px;
+    */
+    position: absolute;
+    top: 20px;
+    left: -7px;
+    font-size: 14.5px;
+    
+}
+
+#timeText {
+    font-size: 16px;
+    margin-top: -5px;
+}
+
+/*
+#sidebox{
+  position: absolute;
+  top: 80px;
+  left: 0px;
+  height: 400px;
+  z-index: 100;
+  display: none;
+  overflow-y: auto;
+}
+*/
+
+#sidebox_in{
+  position: relative;
+  width: 100%;
+}
+
+#sidebox {
+    position: absolute;
+    width: 400px;
+    height: 643px;
+    left: 0px;
+    top: 50px;
+    background-image: url("/pic/dialog/dialogBase.png");
+	background-repeat: no-repeat;
+	background-size: 100% 100%;	
+    z-index: 100000;
+    display: none;
+    font-family: "SourceHanSans-Normal";
+    color: white;
+    overflow-y: auto;
+  /*
+  position: relative;
+  margin: 2em 0;
+  padding: 25px 10px 7px;
+  border: solid 2px #62c1ce;
+  background: #62c1ce;
+  color: #ffffff;
+  */
+}
+
+.box28 .box-title {
+  position: absolute;
+  display: inline-block;
+  top: 0px;
+  right: 0px;
+  padding: 0 9px;
+  height: 25px;
+  line-height: 25px;
+  vertical-align: middle;
+  font-size: 17px;
+  background: rgb(7, 205, 255);
+  color: #ffffff;
+  font-weight: bold;
+  z-index: 100001;
+}
+.box28 p {
+  margin: 0; 
+  padding: 0;
+}
+
+#centorbox_in{
+  position: relative;
+  width: 100%;
+}
+
+#centorbox {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    left: 10%;
+    top: 10%;
+    background-image: url("/pic/dialog/dialogBase.png");
+	background-repeat: no-repeat;
+	background-size: 100% 100%;	
+    z-index: 100001;
+    display: none;
+    font-family: "SourceHanSans-Normal";
+    color: white;
+    overflow-y: auto;
+  /*
+  position: relative;
+  margin: 2em 0;
+  padding: 25px 10px 7px;
+  border: solid 2px #62c1ce;
+  background: #62c1ce;
+  color: #ffffff;
+  */
+}
+
+.box29 .box-title {
+  position: absolute;
+  display: inline-block;
+  top: 0px;
+  right: 0px;
+  padding: 0 9px;
+  height: 25px;
+  line-height: 25px;
+  vertical-align: middle;
+  font-size: 17px;
+  background: rgb(7, 205, 255);
+  color: #ffffff;
+  font-weight: bold;
+  z-index: 100001;
+}
+.box29 p {
+  margin: 0; 
+  padding: 0;
+}
+
+#patBtn img {
+    width: 35px;
+    height: 35px;
+    margin: 14px 0px 0px 15px;
+}
+
+.a_button {
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  border-left: solid 4px #668ad8;
+  border-right: solid 4px #668ad8;
+  color: #668ad8;
+  background: #e1f3ff;
+  transition: .4s;
+}
+
+.a_button:hover {
+  background: #668ad8;
+  color: #FFF;
+}
+
+.input_name {
+    position: absolute;
+    top: 20%;
+    transform: translateY(-50%);
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 2em 0;
+    background: #dcefff;
+    z-index:130;
+}
+.input_name .box-title {
+    font-size: 1.2em;
+    background: #5fb3f5;
+    padding: 4px;
+    text-align: center;
+    color: #FFF;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+}
+.input_name p {
+    color: #5fb3f5;
+    padding: 15px 20px;
+    margin: 10;
+}
+.text.border0{
+    border:0px;
+    outline: 0;
+}
+
+/* 0px - 479px */
+/* スマホ */
+@media screen and (min-width:0px) and (max-width:479px){
+  .video_width { width: 160px;}
+}
+
+/* 960px未満 */
+/* スマホ タブレット等 */
+@media screen and (min-width:480px) and (max-width:959px){
+  .video_width { width: 240px;}
+}
+
+/* 960px以上 */
+@media screen and (min-width:960px) {
+  .video_width { width: 320px;}
+}
+
+.balloon2 {
+  position: relative;
+  display: inline-block;
+  margin: 1.5em 0;
+  padding: 7px 10px;
+  min-width: 120px;
+  max-width: 100%;
+  color: #555;
+  font-size: 16px;
+  background: #FFF;
+  border: solid 3px #555;
+  /* border: solid 3px #fff; */
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.balloon2:before{
+  content: "";
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  margin-left: -15px;
+  border: 12px solid transparent;
+  border-top: 12px solid #FFF;
+  z-index: 2;
+}
+
+.balloon2:after{
+  content: "";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  margin-left: -17px;
+  border: 14px solid transparent;
+  border-top: 14px solid #555;
+  z-index: 1;
+}
+
+.balloon2 p {
+	margin: 0;
+	padding: 0;
+}
+
+#popup {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+
+/* 吹き出し本体 - 左右の中心 */
+.balloon1{
+  position: relative;
+  padding: 20px;
+  background-color: #fff3ad;
+  border-radius: 10px;
+}
+/* 三角アイコン - 左右の中心 */
+.balloon1::before{
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  left: 0;
+  right: 0;
+  bottom: -15px;
+  margin: 0 auto;
+  border-top: 15px solid #fff3ad;
+  border-right: 15px solid transparent;
+  border-left: 15px solid transparent;
+}
+
+.balloon1 p {
+	margin: 0;
+	padding: 0;
+}
+
+.red {
+    color: #a00
+}
+
+
+.mic_btn_blue {
+    display: inline-block;
+ 	width: 67px;
+	height: 67px;
+	background: #38a2c0;
+    background-image: url("/RECORD_layer/mic.png");
+    background-repeat:no-repeat;
+    background-position: 50% 50%;
+    /* background-attachment:fixed; */
+	border: none;
+	border-radius: 67px;
+	-moz-border-radius: 67px;
+    -webkit-border-radius: 67px;
+	color: #ffffff;
+    outline: none;
+	transition: background-color,color 0.3s ease-in;   
+}
+
+.mic_btn_red{
+    display: inline-block;
+ 	width: 67px;
+	height: 67px;
+	background: #a00;
+    background-image: url("/RECORD_layer/mic.png");
+    background-repeat:no-repeat;
+    background-position: 50% 50%;
+    /* background-attachment:fixed; */
+	border: none;
+	border-radius: 67px;
+	-moz-border-radius: 67px;
+    -webkit-border-radius: 67px;
+	color: #ffffff;
+    outline: none;
+	transition: background-color,color 0.3s ease-in;   
+}
+
+.OK_blue{
+    position: relative;
+    display: inline-block;
+ 	width: 67px;
+    height: 67px;
+    background: #38a2c0;
+    /* background-attachment:fixed; */
+	border: none;
+	border-radius: 67px;
+	-moz-border-radius: 67px;
+    -webkit-border-radius: 67px;
+	color: #ffffff;
+    outline: none;
+	transition: background-color,color 0.3s ease-in;   
+}
+
+.text_center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}

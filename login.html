@@ -1,0 +1,36 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- <link href="https://code.ionicframework.com/ionicons/1.4.1/css/ionicons.min.css" rel="stylesheet" type="text/css"/> -->
+    <link href="login.css" rel="stylesheet" type="text/css"/>
+    <!-- <script src="login.js"></script> -->
+</head>
+<body>
+    <div class="signin cf">
+        <div class="avatar">
+            <img src="icon-192.png"></img>
+        </div>
+        <form action="index.html" name="login_form">
+            <!-- <div class="inputrow">
+                <input type="text" name="user_name" id="user_name" placeholder="Username"/>
+            </div>
+            <div class="inputrow">
+                <select name="group_id" id="group_id">
+                    <option value="g1">グループ１</option>
+                    <option value="g2">グループ２</option>
+                    <option value="g3">グループ３</option>
+                    <option value="g4">グループ４</option>
+                </select>
+            </div> -->
+            <input type="text" name="user_name" id="user_name" class="inputrow" placeholder="Username"/>
+            <select name="group_id" id="group_id" class="inputrow">
+                <option value="g1">グループ１</option>
+                <option value="g2">グループ２</option>
+                <option value="g3">グループ３</option>
+                <option value="g4">グループ４</option>
+            </select>    
+            <input type="submit" id="login_btn"/>
+        </form>
+    </div>
+</body>

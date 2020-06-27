@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- <meta name="viewport" content="width=700,initial-scale=1"> -->
+  <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
+  <title>AirMultiTalk</title>
+  <link rel="stylesheet" href="css/ol.css" />
+  <link rel="stylesheet" href="css/spectrum.css" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link rel="stylesheet" type="text/css" href="css/rtc.css" />
+  <!--
+<link rel="stylesheet" href="css/JISYOU_LAYER.css" type="text/css">
+-->
+</head>
+
+<body>
+  <div id='map'></div>
+
+  <div id="my_box" class="box box_width">
+    <div class="title_box">
+      <div id="myUid" class="text child_box title"></div>
+      <div class="rec_btn" id="rec_btn">REC</div>
+    </div>
+    <video id="my_video" class="child_box video_width" playsinline autoplay muted></video>
+  </div>
+  <div id="you_box" class="box">
+    <div id="user_list" class="text box_width"></div>
+  </div>
+
+  <!--
+  input_name add 2019.05.24
+-->
+  <div id="input_name" sytle="display: none" class="input_name">
+    <div class="box-title">LOGIN</div>
+    <p>
+      <label>NAME:</label>
+      <input type="text" id="name" class="text">
+      <button id="name_ok_btn" class="a_button" type="button">OK</button>
+    </p>
+  </div>
+
+  <div id="memo_pop" class="text">
+    <div>
+      <p>MEMO</p>
+      <textarea id="memo_textarea" class="text" rows="5" cols="20"></textarea>
+      <div id="btn_box">
+        <div id="memo_ok_btn" class="OK_blue">
+          <div class="text_center">OK</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="mainMenu" class="menuDiv">
+    <button class="circle menuButton" id="mainMenuBtn">
+      <img src="/pic/0.5x/menu_menu@0,5x.png" class="btnImg">
+    </button>
+    <button class="circle menuButton" id="telBtn">
+      <img src="/pic/0.5x/menu_tel@0,5x.png" class="btnImg">
+    </button>
+    <button class="circle menuButton" id="videoBtn">
+      <img src="/pic/0.5x/menu_video@0,5x.png" class="btnImg">
+    </button>
+    <button class="circle menuButton" id="locationBtn">
+      <img src="/pic/0.5x/menu_location@0,5x.png" class="btnImg">
+    </button>
+  </div>
+  <div id="subMenu" class="menuDiv">
+    <button class="circle menuButton" id="layerBtn">
+      <img src="/pic/0.5x/menu_layer@0,5x.png" class="btnImg">
+    </button>
+    <button class="circle menuButton" id="writeBtn">
+      <img src="/pic/0.5x/menu_hand@0,5x.png" class="btnImg">
+    </button>
+    <button class="circle menuButton" id="weathBtn">
+      <img src="/pic/0.5x/menu_weather@0,5x.png" class="btnImg">
+    </button>
+    <!-- <button class="circle menuButton" id="patBtn">
+      <img src="/pic/0.5x/menu_pato@0,5x.png" class="btnImg">
+      <img src="/images/menu_jisyou.png" class="btnImg">     
+    </button> -->
+    <button class="circle menuButton" id="memoBtn">
+      <img src="/pic/0.5x/menu_txt@0,5x.png" class="btn50Img">
+    </button>
+
+    <button class="circle menuButton" id="backBtn">
+      <img src="/pic/0.5x/menu_return@0,5x.png" class="btnImg">
+    </button>
+  </div>
+
+  <div id="writeMenu" class="menuDiv">
+    <button class="circle menuButton" id="backBtnWrite">
+      <img src="/pic/0.5x/menu_return@0,5x.png" class="btnImg">
+    </button>
+
+    <button class="circle" id="eraseBtn">
+      <img src="/pic/0.5x/menu_eraser@0,5x.png" class="btnImg">
+    </button>
+
+    <button class="circle" id="colorBtn">
+      <div id="colorDisp"></div>
+    </button>
+
+    <div class="circle" id="colorPicker">
+      <input type="text" id="picker">
+      <!--<img src="/pic/0.5x/menu_color@0,5x.png" class="btnImg">-->
+    </div>
+
+    <button class="circle" id="sizeBtn">
+      <div id="sizeDisp"></div>
+      <span id="sizeText">幅：7</span>
+    </button>
+
+    <div id="sizeContainer">
+      <div id="slideContainer">
+        <input type="range" min="1" max="10" value="7" class="slider" id="sizeSlider">
+      </div>
+      <div id="sliderScale">1 2 3 4 5 6 7 8 9 10</div>
+    </div>
+
+  </div>
+  <div id="weathMenu" class="menuDiv">
+    <button class="circle menuButton" id="backBtnWeath">
+      <img src="/pic/0.5x/menu_return@0,5x.png" class="btnImg">
+    </button>
+
+    <button class="circle" id="weathTimeBtn">
+      <span id="timeText"></span>
+    </button>
+
+    <div id="timeContainer">
+      <div id="timeSlideContainer">
+        <input type="range" min="-48" max="0" value="0" class="slider" id="timeSlider">
+      </div>
+      <div class="timeScale" style="left:-7px;">-48</div>
+      <div class="timeScale" style="left:25px;">-42</div>
+      <div class="timeScale" style="left:53px;">-36</div>
+      <div class="timeScale" style="left:80px;">-30</div>
+      <div class="timeScale" style="left:108px;">-24</div>
+      <div class="timeScale" style="left:136px;">-18</div>
+      <div class="timeScale" style="left:164px;">-12</div>
+      <div class="timeScale" style="left:198px;">-6</div>
+      <div class="timeScale" style="left:232px;">0</div>
+    </div>
+
+  </div>
+
+  <div id="layerDialog">
+    <div id="layerDialogTitle">
+      レイヤ
+    </div>
+    <div class="layerDialogContent">
+      <span>フリーハンド</span>
+      <img src="pic/dialog/select_yes.png" id="OnOffFreeHand">
+      <input type="range" min="0" max="100" value="100" class="slider2" id="sliderFreeHand">
+    </div>
+    <div class="layerDialogContent">
+      <span>天気図</span>
+      <img src="pic/dialog/select_yes.png" id="onOffWeather">
+      <input type="range" min="0" max="100" value="100" class="slider2" id="sliderWeather">
+    </div>
+    <div class="layerDialogContent">
+      <span>台風情報</span>
+      <img src="pic/dialog/select_yes.png" id="onOffTyhoon">
+      <input type="range" min="0" max="100" value="100" class="slider2" id="sliderTyhoon">
+    </div>
+    <div class="layerDialogContent">
+      <span>高解像度降水ナウキャスト</span>
+      <img src="pic/dialog/select_yes.png" id="OnOffNowcast">
+      <input type="range" min="0" max="100" value="100" class="slider2" id="sliderNowcast">
+    </div>
+    <div class="layerDialogContent">
+      <span>洪水ハザードマップ</span>
+      <img src="pic/dialog/select_yes.png" id="OnOffHazerdMap">
+      <input type="range" min="0" max="100" value="100" class="slider2" id="sliderHazerdMap">
+    </div>
+    <!-- <div class="layerDialogContent">
+      <span>みちパト</span>
+      <img src="pic/dialog/select_yes.png" id="OnOffPat">
+      <input type="range" min="0" max="100" value="100" class="slider2" id="sliderPat">
+    </div> -->
+    <button class="circle menuButton" id="backBtn2">
+      <img src="/pic/0.5x/etc_close@0,5x.png" class="btnImg">
+    </button>
+  </div>
+
+  <div id="sidebox" class="box28">
+    <p id="sidebox_x" class="box-title">笨销</p>
+    <p id="sidebox_in" class="openbox"></p>
+  </div>
+
+  <div id="centorbox" class="box29">
+    <p id="centorbox_x" class="box-title">笨销</p>
+    <p id="centorbox_in" class="openbox"></p>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/ol.js"></script>
+  <script src="js/spectrum.rev.js"></script>
+  <script src="js/jquery.spectrum-ja.js"></script>
+  <script>
+    var socketio = io.connect();
+    var myUid;
+    var callback_get_mediaDevice = {};
+
+    const LOG = function (msg) {
+      if (typeof msg == "string") {
+        var log_msg = {
+          id: myUid,
+          text: msg
+        }
+      } else {
+        var log_msg = {
+          id: myUid,
+          text: JSON.stringify(msg, null, "\t")
+        }
+      }
+      socketio.emit("log", JSON.stringify(log_msg));
+      console.log(msg);
+    }
+
+    const init_user_id = "initial_user_id";
+    const login = function () {
+      if (init_user_id == "initial_user_id") {
+        return getUniqueStr();
+      } else {
+        return init_user_id;
+      }
+    }
+
+    const getUniqueStr = function (myStrong) {
+      var strong = 10;
+      if (myStrong) strong = myStrong;
+      return new Date().getTime().toString(16) + Math.floor(strong * Math.random()).toString(16)
+    }
+
+    myUid = login();
+    document.getElementById("myUid").innerText = myUid;
+
+
+  </script>
+
+  <!-- <script src="menu.js"></script>
+  <script src='p2p.js'></script>
+  <script src="flip.js"></script> -->
+  <script src="RECORD_layer/record.js"></script>
+  <script src="map.js"></script>
+
+  <script src="user_list.js"></script>
+  <script src="rtc.js"></script>
+
+  <script src="RECORD_layer/speech2text.js"></script>
+  <script src="RECORD_layer/RECORD_layer.js"></script>
+  <!-- <script src="exif.js"></script> -->
+  <script src="beacon.js"></script>
+
+  <!--
+    record.jsはp2p.jsの後、
+    RECORD_layer.jsはmap.jsの後にロードする
+  -->
+
+  <!--
+<script src="JISYOU_LAYER.js"></script>
+-->
+
+  <script>
+    // init_user_id = "initial_user_id";
+    window.onload = function () {
+      // setVideoSize();
+      // myUid = login();
+      // p2pInit(myUid);
+      // disp_init();
+      showMap();
+      curPos(myUid);
+      sendPositionRepeatedly();
+      // colorBtnInit();
+      // if (myUid == "ControlCenter") {
+      //   $("#telBtn").hide();
+      // }
+      // $("#myVideoTitle").html(myUid);
+      // //JISYOU_LAYER.add();
+      RECORD_layer.add();
+    }
+  </script>
+</body>
+
+</html>

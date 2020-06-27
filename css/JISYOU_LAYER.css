@@ -1,0 +1,267 @@
+
+/* button */
+.JISYOU_LAYER_contents .button{
+ min-width: 130px;
+ min-height: 3.3em;
+
+ padding: 0;
+ display: inline-block;
+ margin: 0;
+ border: 1px solid rgb(53, 53, 53);
+ border-radius: 0;
+ font-size: 10pt;
+ font-weight: normal;
+ width: auto;
+ height: auto;
+ min-width: 135px;
+ background-color: #ECFAF8;
+ color: black;
+}
+
+.JISYOU_LAYER_contents .button{
+ border: 1px solid #353535;
+ background-color: #ECFAF8;
+ transition: background 0.4s;
+/* box-shadow: 4px 4px 10px rgba(0,0,0,0.4);*/
+ margin: 0.5em;
+ vertical-align: middle;
+ cursor: pointer;
+}
+.JISYOU_LAYER_contents .button.on{
+ background-color: #009688;
+ color: #ffffff;
+}
+.JISYOU_LAYER_contents .button.invalid{
+ background-color: #AAAAAA;
+ pointer-events:none;
+}
+.JISYOU_LAYER_contents .button *{
+ vertical-align: middle;
+}
+.JISYOU_LAYER_contents [name="hanrei"] .button {
+ text-align: left;
+}
+
+/* popup contents */
+.JISYOU_LAYER_contents th{
+ white-space: nowrap;
+}
+
+
+/* popup */
+.ol-popup {
+  position: absolute;
+  background-color: white;
+  -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  bottom: 12px;
+  left: -155px;
+  min-width: 280px;
+}
+.ol-popup:after, .ol-popup:before {
+  top: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.ol-popup:after {
+  border-top-color: white;
+  border-width: 10px;
+  left: 153px;
+  margin-left: -10px;
+}
+.ol-popup:before {
+  border-top-color: #cccccc;
+  border-width: 11px;
+  left: 153px;
+  margin-left: -11px;
+}
+.ol-popup-closer {
+  text-decoration: none;
+  position: absolute;
+  top: 2px;
+  right: 8px;
+}
+.ol-popup-closer:after {
+  content: "✖";
+}
+
+
+/* edit control */
+.JISYOU_LAYER.jisyo-type{
+ top: 0.5em;
+ right: 0.5em;
+}
+.JISYOU_LAYER.jisyo-type button,
+.JISYOU_LAYER.process button{
+ display: inline-block;
+ min-width: 1.375em;
+ width: auto;
+}
+.JISYOU_LAYER.jisyo-type button.on{
+ background-color: rgba(0,136,60,0.5);
+}
+
+.JISYOU_LAYER.process{
+ top: 3em;
+ right: 0.5em;
+}
+.JISYOU_LAYER.process button:not(:first-child):not(:last-child){
+ margin: 0 0.5em;
+}
+
+/* edit dialog */
+.JISYOU_LAYER_contents .red{
+ color: red;
+}
+
+.JISYOU_LAYER_contents .photo_box{
+ width: 200px;
+ border: 1px solid silver;
+ margin: 0.5em 0;
+}
+.JISYOU_LAYER_contents .photo_box .center{
+ text-align: center;
+}
+.JISYOU_LAYER_contents .photo_box .daihyo{
+ background-color: red;
+ color: white;
+ margin: 0 5px;
+}
+.JISYOU_LAYER_contents .photo_box .nissi{
+ background-color: yellow;
+ margin: 0 5px;
+ color: black;
+}
+
+/* 移動ボタン */
+.JISYOU_LAYER_contents .photo_box:first-of-type .prev{
+ display:none;
+}
+.JISYOU_LAYER_contents .photo_box:last-of-type .next{
+ display:none;
+}
+
+/* 代表 */
+.JISYOU_LAYER_contents .wrap_photo .daihyo{
+ display: none;
+}
+.JISYOU_LAYER_contents .wrap_photo .photo_box:nth-of-type(1) .daihyo{
+ display: inline-block;
+}
+/* 日誌 */
+.JISYOU_LAYER_contents .wrap_photo .nissi{
+ display: none;
+}
+.JISYOU_LAYER_contents .wrap_photo .photo_box:nth-of-type(-n + 4) .nissi{
+ display: inline-block;
+}
+
+
+/*list*/
+.JISYOU_LAYER_contents .pagemove{
+ text-align: center;
+ margin: 1em;
+}
+.JISYOU_LAYER_contents .pagemove .button{
+ width: 32px;
+ height: 32px;
+ min-width: 0;
+ min-height: 0;
+ border: 1px solid #dddddd;
+ margin: 0;
+}
+.JISYOU_LAYER_contents .card{
+ background-color: #F8FFE9;
+ box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4);
+ margin: 1em;
+ text-align: left;
+ border: 0;
+ width: 95%;
+ padding: 0;
+}
+.JISYOU_LAYER_contents .card .item{
+ border-bottom: 1px solid silver;
+ color: black;
+}
+.JISYOU_LAYER_contents .pagemove .button.here{
+/* color: silver;*/
+ background-color: #009688;
+}
+
+
+
+.JISYOU_LAYER_contents .keiyuti td.time{
+ width: 80px;
+}
+
+.JISYOU_LAYER_contents .keiyuti.focus{
+ background-color: orange;
+}
+.JISYOU_LAYER_contents .keiyuti.visited{
+ background-color: gray;
+}
+
+.JISYOU_LAYER_contents .junkai_plan_list{
+ width: 100%;
+ border-collapse: collapse;
+ font-size: 10pt;
+}
+.JISYOU_LAYER_contents .junkai_plan_list.tracking{
+ background-color: #E7EEE8;
+}
+.JISYOU_LAYER_contents .junkai_plan_list td{
+ border: 1px solid black;
+ color: black;
+}
+.JISYOU_LAYER_contents .junkai_plan_list td:first-child{
+ width: 100px;
+}
+.JISYOU_LAYER_contents .junkai_plan_list button{
+ width: 80px;
+}
+
+.JISYOU_LAYER_contents.junkai_detail table{
+ width: 100%;
+ background-color: #F8FFE9;
+ color: black;
+}
+.JISYOU_LAYER_contents.junkai_detail table td{
+ border: 1px solid black;
+}
+.JISYOU_LAYER_contents.junkai_detail table.route td:first-child{
+ width: 100px;
+}
+.JISYOU_LAYER_contents.junkai_detail table.keiyuti td{
+ text-align: center;
+}
+.JISYOU_LAYER_contents.junkai_detail .date{
+ margin: 1em;
+}
+
+.JISYOU_LAYER_contents.junkai_detail_edit .keiyuti{
+ background-color: #fffbd5;
+ color: black;
+}
+.JISYOU_LAYER_contents.junkai_detail_edit .keiyuti th,
+.JISYOU_LAYER_contents.junkai_detail_edit .keiyuti td{
+ border: 1px solid black;
+}
+.JISYOU_LAYER_contents.junkai_detail_edit .keiyuti_box,
+.JISYOU_LAYER_contents.junkai_detail_edit .keiyuti_connect{
+ display: inline-block;
+ text-align: center;
+ vertical-align: middle;
+}
+.JISYOU_LAYER_contents.junkai_detail_edit .junkai_jisyou{
+ width: 100%;
+}
+.JISYOU_LAYER_contents.junkai_detail_edit .junkai_jisyou td{
+ border: 1px solid black;
+}
