@@ -17,6 +17,11 @@ const https_port = 10443;
 
 console.log(`エアマルチトーク　サーバ起動 : ${new Date().toLocaleTimeString()}`);
 
+fs.mkdir("tmp", function (err) {
+    if (err) console.log(`ERROR MKDIR : TMP Folder :$`);
+    else console.log(`MKDIR TMP Folder SUCCEES`);
+})
+
 const app = express();
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, "/login.html"));
