@@ -19,10 +19,14 @@ console.log(`エアマルチトーク　サーバ起動 : ${new Date().toLocaleT
 
 const app = express();
 app.get('/', function (req, res) {
-
-  if (Object.keys(req.query).length == 0) {
     res.sendFile(path.join(__dirname, "/login.html"));
-  }
+});
+app.get('/index.html', function (req, res) {
+    if (!req.query.group_id) {
+        res.sendFile(path.join(__dirname, "/login.html"));
+    } else {
+        res.sendFile(path.join(__dirname, "/index.html"));
+    }
 });
 app.use(express.static("./"));
 app.set("port", process.env.PORT || https_port);
