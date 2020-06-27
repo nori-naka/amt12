@@ -21,7 +21,7 @@ console.log(`エアマルチトーク　サーバ起動 : ${new Date().toLocaleT
 const app = express();
 app.get('/', function (req, res) {
 
-  if (Object.keys(req.query).length == 0) {
+  if (!req.query.group_id) {
     res.sendFile(path.join(__dirname, "/login.html"));
   }
 });

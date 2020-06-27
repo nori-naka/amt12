@@ -1,7 +1,6 @@
 const CACHE_NAME = 'cache-v1';
 const urlsToCache = [
     './',
-    "./beacon.js",
     "./css/ol.css",
     "./css/rtc.css",
     "./css/spectrum.css",
@@ -32,7 +31,7 @@ const urlsToCache = [
     "./RECORD_layer/video_pin.png",
     "./rhttp.js",
     "./rhttps.js",
-    "./rtc.js",
+    "./p2p.js",
     "./sw.js",
     "./user_list.js",
 ];
