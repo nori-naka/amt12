@@ -213,12 +213,12 @@ export function P2P(args) {
     this.LOG("CONNECT", this.pc.iceConnectionState)
   };
 
-  // ----------------------- 送信処理 -----------------------------------
+  // ----------------------- シグナリング送信処理 -------------------------
   this.send_msg = msg => {
     this.callback.send_msg(msg);
   };
 
-  // ----------------------- 着信時処理 -----------------------
+  // ----------------------- シグナリング着信時処理 -----------------------
 
   this.recv_msg = async msg => {
     if (this.closed) return;
@@ -261,6 +261,7 @@ export function P2P(args) {
 
   //--------------------------------------------------
   // offer_direction
+  // ローカルのdirection内容によって、オファーするdirectionを決める
   //--------------------------------------------------
   this.offer_direction = local_direction => {
     if (local_direction == "sendrecv") return "sendrecv";
@@ -270,7 +271,7 @@ export function P2P(args) {
   };
 
   //--------------------------------------------------
-  // 発呼
+  // メディア発呼（ネゴ有り）
   //--------------------------------------------------
   this.call_in = async (local_direction, media_type) => {
     console.log(
@@ -295,7 +296,7 @@ export function P2P(args) {
   };
 
   //--------------------------------------------------
-  // 切断
+  // メディア切断（ネゴ有り）
   //--------------------------------------------------
   this.call_out = async (media_type) => {
     console.log(
@@ -317,6 +318,21 @@ export function P2P(args) {
     // this.LOG("LOCAL SDP", JSON.stringify(data));
     this.LOG("SDP", `切断SEND to ${data.dest}`);
     this.send_msg( JSON.stringify(data));
+  }
+
+  //--------------------------------------------------
+  // メディア切断（ネゴ無し・強制）
+  //--------------------------------------------------
+  this.call_out_force = (media_type) => {
+    console.log(
+      `---------CALL_OUT FORCE:${this.my_id} > ${this.remote_id}:------------------`
+    );
+
+    this.pc.getSenders().forEach(sender => {
+      if (sender.track && sender.track.kind == media_type) {
+        this.pc.removeTrack(sender);
+      }
+    })
   }
 
   // ---------------------------- CALL BACK --------------------------------

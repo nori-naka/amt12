@@ -31,7 +31,7 @@ Vue.component("remote_user", {
     </div>`,
     data() {
         return {
-            socketio: io.connect(),
+            // socketio: io.connect(),
             peer: null,
             show_video: false,
             move_flag: false,
@@ -214,6 +214,8 @@ Vue.component("remote_user", {
         }
     },
     beforeDestroy() {
+        this.peer.call_out_force("audio");
+        this.peer.call_out_force("video");
         this.peer.close();
         Object.keys(this.clearId).forEach(key => {clearInterval(this.clearId[key])})
         this.mic_btn_elm.removeEventListener("touchstart", this.audio_start, false);
@@ -278,6 +280,8 @@ var app = new Vue({
         cur_video_showed: {},
         show_local_video: true,
         video_on_off: true,
+        TTL_VAL: 3,
+        user_list_ttl: 3,
         clearId: {}
     },
     mounted() {
@@ -317,15 +321,14 @@ var app = new Vue({
             this.users = Object.keys(data).map(id => {
                 return { id: id, ttl: data[id].ttl, name: data[id].name }
             });
+
+            this.user_list_ttl = this.TTL_VAL;
         });
 
-        socketio.on("disconnect", (msg) => {
-            if (msg == "transport close") {
-                this.users = [];
-            } else {
-                const data = JSON.parse(msg);
-                this.users = this.users.filter(user => { return user.id != data.id });
-            }
+        socketio.on("disconnect", (reason) => {
+            console.log(`ON DISCONNECT: ${reason}`);
+            this.users = [];
+            socketio.connect();
         });
 
         socketio.on("publish", msg => {
@@ -353,14 +356,25 @@ var app = new Vue({
             }
         }, 200);
         this.clearId["user_list"] = setInterval(() => {
-            // SEND
-            socketio.emit("user_list", JSON.stringify(
-                {
-                    id: myUid,
-                    group_id: group_id,
-                    name: user_name
-                })
-            );
+
+            if (this.user_list_ttl > 0) {
+                // USER_LIST SEND
+                LOG(`TTL=${this.user_list_ttl} USER_LIST SEND = ${JSON.stringify({ id: myUid, group_id: group_id, name: user_name })}`);
+                socketio.emit("user_list", JSON.stringify(
+                    {
+                        id: myUid,
+                        group_id: group_id,
+                        name: user_name
+                    })
+                );
+                this.user_list_ttl--;
+            } else {
+                console.log(`TTL=${this.user_list_ttl} this.users is cleared & regist`);
+                this.users = [];
+                socketio.connect();
+                // this.regist(myUid, group_id);
+                this.user_list_ttl = 0;
+            }
         }, 1000);
     },
     methods: {
@@ -374,6 +388,9 @@ var app = new Vue({
         async video_start() {
             const _tmp_devices = await this.get_devices();
 
+            // ビデオデバイスの抽出を行う。
+            // エアマルチ起動中でも追加があった場合、拾い上げられる様にvideo_start都度にget_devicesを実行して、
+            // 配列device_idに並べる。device_idはvide_start都度、巡回する形とする。
             if (Object.keys(this.devices).length == 0) {
                 this.devices = _tmp_devices;
             } else {
