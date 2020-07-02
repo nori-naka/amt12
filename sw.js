@@ -16,6 +16,7 @@ const urlsToCache = [
     "./js/jquery-3.3.1.min.js",
     "./js/ol.js",
     "./js/spectrum.rev.js",
+    "./js/vue.js",
     "./main.js",
     "./manifest.json",
     "./map.js",
@@ -66,34 +67,30 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
 
-    if (event.request.url.endsWith('/RECORD_layer/position.json')) {
-        return fetch(event.request);
-    } else {
-        event.respondWith(
-            caches.match(event.request)
-                .then((response) => {
-                    if (response) {
-                        return response;
-                    }
-    
-                    let fetchRequest = event.request.clone();
-    
-                    return fetch(fetchRequest)
-                        .then((response) => {
-                            if (!response || response.status !== 200 || response.type !== 'basic') {
-                                return response;
-                            }
-    
-                            let responseToCache = response.clone();
-    
-                            caches.open(CACHE_NAME)
-                                .then((cache) => {
-                                    cache.put(event.request, responseToCache);
-                                });
-    
+    event.respondWith(
+        caches.match(event.request)
+            .then((response) => {
+                if (response) {
+                    return response;
+                }
+
+                let fetchRequest = event.request.clone();
+
+                return fetch(fetchRequest)
+                    .then((response) => {
+                        if (!response || response.status !== 200 || response.type !== 'basic') {
                             return response;
-                        });
-                })
-        );    
-    }
+                        }
+
+                        let responseToCache = response.clone();
+
+                        caches.open(CACHE_NAME)
+                            .then((cache) => {
+                                cache.put(event.request, responseToCache);
+                            });
+
+                        return response;
+                    });
+            })
+    );    
 });
