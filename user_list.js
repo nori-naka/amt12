@@ -403,7 +403,7 @@ var app = new Vue({
         },
         audio_start(ev) {
             ev.preventDefault();
-            if (this.$refs.remote_users.length == 0) return;
+            if (!this.$refs.remote_users) return;
             
             // if (this.audio_on_flag) return;
             this.audio_on_flag = true;
@@ -425,7 +425,7 @@ var app = new Vue({
             ev.preventDefault();
 
             this.mic_btn_elm.classList.remove("red_background");
-            if (this.$refs.remote_users.length == 0) return;
+            if (!this.$refs.remote_users) return;
 
             console.log("--------------------------------------------------------------------")
             this.$refs.remote_users.forEach(remote_user => {
