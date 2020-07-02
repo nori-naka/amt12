@@ -403,7 +403,8 @@ var app = new Vue({
         },
         audio_start(ev) {
             ev.preventDefault();
-
+            if (this.$refs.remote_users.length == 0) return;
+            
             // if (this.audio_on_flag) return;
             this.audio_on_flag = true;
 
@@ -414,14 +415,17 @@ var app = new Vue({
                 this.mic_btn_elm.addEventListener("touchstart", this.audio_start, false);
             }, 200);
 
-            this.mic_btn_elm.classList.add("red_background");
             this.$refs.remote_users.forEach(remote_user => {
                 remote_user.peer.call_in("sendonly", "audio");
             })
+            this.mic_btn_elm.classList.add("red_background");
             // this.peer.call_in("sendonly", "audio");
         },
         audio_stop(ev) {
             ev.preventDefault();
+
+            this.mic_btn_elm.classList.remove("red_background");
+            if (this.$refs.remote_users.length == 0) return;
 
             console.log("--------------------------------------------------------------------")
             this.$refs.remote_users.forEach(remote_user => {
@@ -433,7 +437,6 @@ var app = new Vue({
             console.log("--------------------------------------------------------------------")
 
             this.audio_on_flag = false;
-            this.mic_btn_elm.classList.remove("red_background");
             this.$refs.remote_users.forEach(remote_user => {
                 remote_user.peer.call_out("audio");
             })
