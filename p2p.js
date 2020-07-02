@@ -34,9 +34,9 @@ export function P2P(args) {
     if (NO_DISP.includes(title)) return;
 
     if (style) {
-      console.log(`${self.my_id} in ${this.name}: ${title}: %c${s}`, style, "");
+      console.log(`${self.my_id} : ${title}: %c${s}`, style, "");
     } else {
-      console.log(`${self.my_id} in ${this.name}: ${title}: ${s}`);
+      console.log(`${self.my_id} : ${title}: ${s}`);
     }
   };
   //--------------------------------------------------
@@ -197,7 +197,7 @@ export function P2P(args) {
         type: "candidate",
         candidate: ev.candidate
       };
-      this.LOG("ICE", JSON.stringify(data));
+      // this.LOG("ICE", JSON.stringify(data));
       this.LOG("ICE", `SEND to ${data.dest}`);
       this.send_msg( JSON.stringify(data));
     }
@@ -229,7 +229,7 @@ export function P2P(args) {
     }
 
     if (data.type == "offer") {
-      this.LOG("着信OFFER", msg);
+      // this.LOG("着信OFFER", msg);
       if (!this.pc || this.pc.signalingState != "stable") return;
 
       await this.pc.setRemoteDescription(data);
@@ -246,11 +246,11 @@ export function P2P(args) {
       this.send_msg( JSON.stringify(_data));
       this.LOG("SDP", `応答SEND to ${_data.dest}`);
     } else if (data.type == "answer") {
-      this.LOG("着信ANSWER", msg);
+      // this.LOG("着信ANSWER", msg);
       if (this.pc.signalingState != "have-local-offer") return;
       await this.pc.setRemoteDescription(data);
     } else if (data.type == "candidate") {
-      this.LOG("着信ICE", msg);
+      // this.LOG("着信ICE", msg);
       try {
         await this.pc.addIceCandidate(data.candidate);
       } catch (err) {

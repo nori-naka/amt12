@@ -336,7 +336,7 @@ module.exports = function (server) {
                     if (user_gid[_id] && user_list[user_gid[_id]]) delete user_list[user_gid[_id]][_id];
                     if (user_gid[_id]) delete user_gid[_id];
                     if (user_sid[_id]) delete user_sid[_id];
-                    io.sockets.emit("disconnect", JSON.stringify({ id: _id }));
+                    io.sockets.emit("disconnected", JSON.stringify({ id: _id }));
                 }
             });
         });

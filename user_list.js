@@ -1,5 +1,5 @@
 Vue.component("remote_user", {
-    props: ["user", "remote_id", "init_width", "mic_btn_elm", "video_on_off"],
+    props: ["user", "remote_id", "init_width", "video_on_off"],
     template: `<div ref="video_container" :style="styleObj">
         <div v-on:click="video_call" class="text videoTitle">{{ user.name }}</div>
         <video
@@ -38,7 +38,6 @@ Vue.component("remote_user", {
             move_once: false,
             focus_flag: false,
             resize_flag: false,
-            audio_on_flag: false,
             clearId: {},
             top: 0,
             left: 0,
@@ -60,7 +59,7 @@ Vue.component("remote_user", {
                 const [track] = stream.getTracks()
                 if (track.kind == "audio") {
                     console.log("ON CALL_IN AUDIO");
-                    this.$emit("audio_call", true, stream);
+                    this.$emit("on_audio_call", true, stream);
                 } else {
                     console.log("ON CALL_IN VIDEO");
                     this.$refs.remote_video.srcObject = stream;
@@ -73,18 +72,13 @@ Vue.component("remote_user", {
                 const [track] = stream.getTracks();
 
                 if (track.kind == "audio") {
-                    this.$emit("audio_call", false, null);
+                    this.$emit("on_audio_call", false, null);
                 }
             });
 
             this.peer.on("send_msg", msg => {
                 this.$emit("send_msg", msg);
             })
-
-            this.mic_btn_elm.addEventListener("touchstart", this.audio_start, false);
-            this.mic_btn_elm.addEventListener("touchend", this.audio_stop, false);
-            this.mic_btn_elm.addEventListener("mousedown", this.audio_start, false);
-            this.mic_btn_elm.addEventListener("mouseup", this.audio_stop, false);
 
             document.body.addEventListener("mousemove", this.rmove, false);
             document.body.addEventListener("mouseup", this.rup, false);
@@ -111,30 +105,6 @@ Vue.component("remote_user", {
         // audio_call_in() {
         //     this.peer.call_in("sendonly", "audio");
         // },
-        audio_start(ev) {
-            ev.preventDefault();
-
-            if (this.audio_on_flag) return;
-            this.audio_on_flag = true;
-
-            this.mic_btn_elm.removeEventListener("mousedown", this.audio_start, false);
-            this.mic_btn_elm.removeEventListener("touchstart", this.audio_start, false);
-            this.clearId["audio_start"] = setTimeout(() => {
-                this.mic_btn_elm.addEventListener("mousedown", this.audio_start, false);
-                this.mic_btn_elm.addEventListener("touchstart", this.audio_start, false);
-            }, 200);
-
-            this.mic_btn_elm.classList.add("red_background");
-            this.peer.call_in("sendonly", "audio");
-        },
-        audio_stop(ev) {
-            ev.preventDefault();
-
-            this.audio_on_flag = false;
-            this.mic_btn_elm.classList.remove("red_background");
-            this.peer.call_out("audio");
-        },
-
         mdown(ev) {
             const _ev = ev.touches ? ev.touches[0] : ev;
             this.move_flag = true;
@@ -218,10 +188,6 @@ Vue.component("remote_user", {
         this.peer.call_out_force("video");
         this.peer.close();
         Object.keys(this.clearId).forEach(key => {clearInterval(this.clearId[key])})
-        this.mic_btn_elm.removeEventListener("touchstart", this.audio_start, false);
-        this.mic_btn_elm.removeEventListener("touchend", this.audio_stop, false);
-        this.mic_btn_elm.removeEventListener("mousedown", this.audio_start, false);
-        this.mic_btn_elm.removeEventListener("mouseup", this.audio_stop, false);
         document.body.removeEventListener("mousemove", this.rmove, false);
         document.body.removeEventListener("mouseup", this.rup, false);
         document.body.removeEventListener("touchend", this.rup, { passive: true });
@@ -244,17 +210,17 @@ var app = new Vue({
         </div>
         <div ref="remoteBoxs" v-show="video_on_off" class="box box_width remoteBox">
             <remote_user
+                ref="remote_users"
                 v-for="user in users"
                 :user="user"
                 :remote_id="user.id"
                 :key="user.id"
                 :init_width="$refs.localBox.clientWidth"
-                :mic_btn_elm="mic_btn_elm"
                 :video_on_off="video_on_off"
-                v-on:video_call="set_video_on_off"
-                v-on:focus="set_focus"
-                v-on:audio_call="audio_call"
-                v-on:send_msg="send_msg"
+                @video_call="set_video_on_off"
+                @focus="set_focus"
+                @on_audio_call="on_audio_call"
+                @send_msg="send_msg"
             >
             </remote_user>
             <audio ref="audio_elm"></audio>
@@ -268,6 +234,7 @@ var app = new Vue({
         get_devices: null,
         mic_btn_elm: document.getElementById("send_audio_to_all"),
         video_on_off_elm: document.getElementById("videoBtn"),
+        audio_on_flag: false,
         constraints: {
             video: {
                 width: 640,
@@ -325,11 +292,17 @@ var app = new Vue({
             this.user_list_ttl = this.TTL_VAL;
         });
 
-        socketio.on("disconnect", (reason) => {
-            console.log(`ON DISCONNECT: ${reason}`);
+        socketio.on("disconnect", (msg) => {
+            console.log(`ON DISCONNECT: ${msg}`);
+
             this.users = [];
             socketio.connect();
         });
+
+        socketio.on("disconnected", (msg) => {
+            const data = JSON.parse(msg);
+            console.log(`ON DISCONNECTED by ${data.id}`);
+       });
 
         socketio.on("publish", msg => {
             const data = JSON.parse(msg);
@@ -341,10 +314,17 @@ var app = new Vue({
 
         });
 
+        this.mic_btn_elm.addEventListener("touchstart", this.audio_start, false);
+        this.mic_btn_elm.addEventListener("touchend", this.audio_stop, false);
+        this.mic_btn_elm.addEventListener("mousedown", this.audio_start, false);
+        this.mic_btn_elm.addEventListener("mouseup", this.audio_stop, false);
+
         this.clearId["audio_elm"] = setInterval(() => {
 
             if (this.$refs.audio_elm.srcObject) {
                 [track] = this.$refs.audio_elm.srcObject.getAudioTracks();
+
+                // ネゴ有りの場合、mutedが変化する
                 if (this.$refs.audio_elm.srcObject && !track.muted) {
                     this.mic_btn_elm.classList.add("green_background");
                 } else {
@@ -359,7 +339,7 @@ var app = new Vue({
 
             if (this.user_list_ttl > 0) {
                 // USER_LIST SEND
-                LOG(`TTL=${this.user_list_ttl} USER_LIST SEND = ${JSON.stringify({ id: myUid, group_id: group_id, name: user_name })}`);
+                // LOG(`TTL=${this.user_list_ttl} USER_LIST SEND = ${JSON.stringify({ id: myUid, group_id: group_id, name: user_name })}`);
                 socketio.emit("user_list", JSON.stringify(
                     {
                         id: myUid,
@@ -421,6 +401,46 @@ var app = new Vue({
                 console.log(err);
             }
         },
+        audio_start(ev) {
+            ev.preventDefault();
+
+            // if (this.audio_on_flag) return;
+            this.audio_on_flag = true;
+
+            this.mic_btn_elm.removeEventListener("mousedown", this.audio_start, false);
+            this.mic_btn_elm.removeEventListener("touchstart", this.audio_start, false);
+            this.clearId["audio_start"] = setTimeout(() => {
+                this.mic_btn_elm.addEventListener("mousedown", this.audio_start, false);
+                this.mic_btn_elm.addEventListener("touchstart", this.audio_start, false);
+            }, 200);
+
+            this.mic_btn_elm.classList.add("red_background");
+            this.$refs.remote_users.forEach(remote_user => {
+                remote_user.peer.call_in("sendonly", "audio");
+            })
+            // this.peer.call_in("sendonly", "audio");
+        },
+        audio_stop(ev) {
+            ev.preventDefault();
+
+            console.log("--------------------------------------------------------------------")
+            this.$refs.remote_users.forEach(remote_user => {
+                remote_user.peer.pc.getTransceivers().forEach(t => {
+                    if (!t || !t.sender || !t.sender.track) return;
+                    console.log(`${remote_user.user.name} : ${t.sender.track.kind} = ${t.currentDirection}: ${t.sender.track.enabled}`)
+                });
+            })
+            console.log("--------------------------------------------------------------------")
+
+            this.audio_on_flag = false;
+            this.mic_btn_elm.classList.remove("red_background");
+            this.$refs.remote_users.forEach(remote_user => {
+                remote_user.peer.call_out("audio");
+            })
+            // this.peer.call_out("audio");
+            // this.peer.call_out_force("audio");
+        },
+
         set_video_on_off(showed, id) {
             // this.cur_video_showed[id] = showed;
             // console.dir(this.cur_video_showed);
@@ -437,7 +457,7 @@ var app = new Vue({
         toggle_show_local_video() {
             this.show_local_video = !this.show_local_video;
         },
-        async audio_call(call_on, stream) {
+        async on_audio_call(call_on, stream) {
             if (call_on) {
                 this.$refs.audio_elm.srcObject = stream;
                 await this.$refs.audio_elm.play();
@@ -454,5 +474,9 @@ var app = new Vue({
         Object.keys(this.clearId).forEach(key => {
             clearInterval(this.clearId[key]);
         })
+        this.mic_btn_elm.removeEventListener("touchstart", this.audio_start, false);
+        this.mic_btn_elm.removeEventListener("touchend", this.audio_stop, false);
+        this.mic_btn_elm.removeEventListener("mousedown", this.audio_start, false);
+        this.mic_btn_elm.removeEventListener("mouseup", this.audio_stop, false);
     }
 })
