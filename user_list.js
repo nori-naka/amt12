@@ -247,8 +247,8 @@ var app = new Vue({
         cur_video_showed: {},
         show_local_video: true,
         video_on_off: true,
-        TTL_VAL: 3,
-        user_list_ttl: 3,
+        TTL_VAL: 6,
+        user_list_ttl: 6,
         clearId: {}
     },
     mounted() {

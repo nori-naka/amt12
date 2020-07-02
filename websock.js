@@ -24,7 +24,7 @@ module.exports = function (server) {
     SERVER_LOG_FLAG = false;
 
     var keepAliveStart = false;
-    var ttlVal = 5;
+    var ttlVal = 10;
     var keepAliveTime = (new Date()).getTime();
 
     var json_filename = "./RECORD_layer/position.json";
