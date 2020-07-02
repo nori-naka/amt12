@@ -1,4 +1,4 @@
-/ キャッシュファイルの指定
+// キャッシュファイルの指定
 var CACHE_NAME = 'pwa-sample-caches';
 var urlsToCache = [
     './',
