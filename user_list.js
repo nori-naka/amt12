@@ -349,7 +349,7 @@ var app = new Vue({
                 this.users = [];
                 socketio.connect();
                 // this.regist(myUid, group_id);
-                this.user_list_ttl = 0;
+                this.user_list_ttl = this.TTL_VAL;
             }
         }, 1000);
     },
