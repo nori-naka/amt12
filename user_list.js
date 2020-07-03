@@ -252,7 +252,6 @@ var app = new Vue({
         clearId: {}
     },
     mounted() {
-        LOG(`----------------------<1>----------------------------`);
         import("./p2p.js").then(async module => {
             this.get_local_stream = module.getStream;
             this.get_devices = module.getDeviceId;
@@ -260,7 +259,6 @@ var app = new Vue({
             this.video_start();
         });
 
-        LOG(`----------------------<2>----------------------------`);
         this.video_on_off_elm.addEventListener("click", () => {
             this.video_on_off = this.video_on_off ? false : true;
             if (this.video_on_off == false) {
@@ -273,55 +271,44 @@ var app = new Vue({
             }
         }, false)
 
-        LOG(`----------------------<3>----------------------------`);
-        socketio.on("req-regist", (msg) => {
-            console.log(`recive req-regist : ${msg}`);
-            this.regist(myUid, group_id);
-            if (modalArea.classList.contains("is-show")) {
-                modalArea.classList.remove('is-show');
-            }
-            // is_serv_connectivity = true;
-            // keep_cur_video_func('connect');
-        });
-        LOG(`----------------------<4>----------------------------`);
-        socketio.on("user_list", (msg) => {
-            const data = JSON.parse(msg);
-            LOG(`----------------------<4-1>----------------------------`);
-            LOG(`ON USER_LIST:${msg}`);
-
-            delete data[myUid];
-            LOG(`----------------------<4-2>----------------------------`);
-            this.users = Object.keys(data).map(id => {
-                return { id: id, ttl: data[id].ttl, name: data[id].name }
+        this.$nextTick(() => {
+            socketio.on("req-regist", (msg) => {
+                console.log(`recive req-regist : ${msg}`);
+                this.regist(myUid, group_id);
+                if (modalArea.classList.contains("is-show")) {
+                    modalArea.classList.remove('is-show');
+                }
             });
-            LOG(`----------------------<4-3>----------------------------`);
+            socketio.on("user_list", (msg) => {
+                const data = JSON.parse(msg);
+                LOG(`ON USER_LIST:${msg}`);
 
-            this.user_list_ttl = this.TTL_VAL;
-            LOG(`----------------------<4-4>----------------------------`);
-        });
-        LOG(`----------------------<5>----------------------------`);
-        socketio.on("disconnect", (msg) => {
-            console.log(`ON DISCONNECT: ${msg}`);
+                delete data[myUid];
+                this.users = Object.keys(data).map(id => {
+                    return { id: id, ttl: data[id].ttl, name: data[id].name }
+                });
+                this.user_list_ttl = this.TTL_VAL;
+            });
+            socketio.on("disconnect", (msg) => {
+                console.log(`ON DISCONNECT: ${msg}`);
+                this.users = [];
+                socketio.connect();
+            });
 
-            this.users = [];
-            socketio.connect();
-        });
+            socketio.on("disconnected", (msg) => {
+                const data = JSON.parse(msg);
+                console.log(`ON DISCONNECTED by ${data.id}`);
+            });
 
-        LOG(`----------------------<6>----------------------------`);
-        socketio.on("disconnected", (msg) => {
-            const data = JSON.parse(msg);
-            console.log(`ON DISCONNECTED by ${data.id}`);
-       });
+            socketio.on("publish", msg => {
+                const data = JSON.parse(msg);
 
-        socketio.on("publish", msg => {
-            const data = JSON.parse(msg);
-
-            const remote_user = this.$children.find(child => { return child.remote_id == data.src });
-            if (remote_user) {
-                remote_user.peer.recv_msg(msg);
-            }
-
-        });
+                const remote_user = this.$children.find(child => { return child.remote_id == data.src });
+                if (remote_user) {
+                    remote_user.peer.recv_msg(msg);
+                }
+            });
+        })
 
         this.mic_btn_elm.addEventListener("touchstart", this.audio_start, false);
         this.mic_btn_elm.addEventListener("touchend", this.audio_stop, false);
