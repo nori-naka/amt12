@@ -92,7 +92,7 @@ function set_icon() {
         url: '/RECORD_layer/position.json',
         type: 'GET'
     }).done(function (data) {
-        if (Object.keys(data).length == 0) return;
+        // if (Object.keys(data).length == 0) return;
         RECORD_layer.get_data(data).then(() => {
             RECORD_layer.vec_layer.getSource().clear();
             RECORD_layer.vec_layer.getSource().addFeatures(RECORD_layer.icon_features);

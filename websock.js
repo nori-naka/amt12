@@ -28,8 +28,13 @@ module.exports = function (server) {
     var keepAliveTime = (new Date()).getTime();
 
     var json_filename = "./RECORD_layer/position.json";
-    var out_str = fs.readFileSync(json_filename, 'utf8')
-    var position_hash = JSON.parse(out_str)
+    var position_hash = {};
+    try {
+        var out_str = fs.readFileSync(json_filename, 'utf8')
+        position_hash = JSON.parse(out_str)
+    } catch (err) {
+        console.log(err);
+    }
 
 
     //-------------------------------------------------------------

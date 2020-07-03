@@ -403,7 +403,7 @@ var app = new Vue({
         },
         audio_start(ev) {
             ev.preventDefault();
-            if (!this.$refs.remote_users) return;
+            // if (!this.$refs.remote_users) return;
             
             // if (this.audio_on_flag) return;
             this.audio_on_flag = true;
@@ -425,16 +425,16 @@ var app = new Vue({
             ev.preventDefault();
 
             this.mic_btn_elm.classList.remove("red_background");
-            if (!this.$refs.remote_users) return;
+            // if (!this.$refs.remote_users) return;
 
-            console.log("--------------------------------------------------------------------")
-            this.$refs.remote_users.forEach(remote_user => {
-                remote_user.peer.pc.getTransceivers().forEach(t => {
-                    if (!t || !t.sender || !t.sender.track) return;
-                    console.log(`${remote_user.user.name} : ${t.sender.track.kind} = ${t.currentDirection}: ${t.sender.track.enabled}`)
-                });
-            })
-            console.log("--------------------------------------------------------------------")
+            // console.log("--------------------------------------------------------------------")
+            // this.$refs.remote_users.forEach(remote_user => {
+            //     remote_user.peer.pc.getTransceivers().forEach(t => {
+            //         if (!t || !t.sender || !t.sender.track) return;
+            //         console.log(`${remote_user.user.name} : ${t.sender.track.kind} = ${t.currentDirection}: ${t.sender.track.enabled}`)
+            //     });
+            // })
+            // console.log("--------------------------------------------------------------------")
 
             this.audio_on_flag = false;
             this.$refs.remote_users.forEach(remote_user => {
