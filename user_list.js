@@ -252,6 +252,7 @@ var app = new Vue({
         clearId: {}
     },
     mounted() {
+        LOG(`----------------------<1>----------------------------`);
         import("./p2p.js").then(async module => {
             this.get_local_stream = module.getStream;
             this.get_devices = module.getDeviceId;
@@ -259,6 +260,7 @@ var app = new Vue({
             this.video_start();
         });
 
+        LOG(`----------------------<2>----------------------------`);
         this.video_on_off_elm.addEventListener("click", () => {
             this.video_on_off = this.video_on_off ? false : true;
             if (this.video_on_off == false) {
@@ -271,6 +273,7 @@ var app = new Vue({
             }
         }, false)
 
+        LOG(`----------------------<3>----------------------------`);
         socketio.on("req-regist", (msg) => {
             console.log(`recive req-regist : ${msg}`);
             this.regist(myUid, group_id);
@@ -280,20 +283,23 @@ var app = new Vue({
             // is_serv_connectivity = true;
             // keep_cur_video_func('connect');
         });
-
+        LOG(`----------------------<4>----------------------------`);
         socketio.on("user_list", (msg) => {
             const data = JSON.parse(msg);
-
+            LOG(`----------------------<4-1>----------------------------`);
             LOG(`ON USER_LIST:${msg}`);
 
             delete data[myUid];
+            LOG(`----------------------<4-2>----------------------------`);
             this.users = Object.keys(data).map(id => {
                 return { id: id, ttl: data[id].ttl, name: data[id].name }
             });
+            LOG(`----------------------<4-3>----------------------------`);
 
             this.user_list_ttl = this.TTL_VAL;
+            LOG(`----------------------<4-4>----------------------------`);
         });
-
+        LOG(`----------------------<5>----------------------------`);
         socketio.on("disconnect", (msg) => {
             console.log(`ON DISCONNECT: ${msg}`);
 
@@ -301,6 +307,7 @@ var app = new Vue({
             socketio.connect();
         });
 
+        LOG(`----------------------<6>----------------------------`);
         socketio.on("disconnected", (msg) => {
             const data = JSON.parse(msg);
             console.log(`ON DISCONNECTED by ${data.id}`);
