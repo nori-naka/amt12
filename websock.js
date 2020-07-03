@@ -19,8 +19,8 @@ module.exports = function (server) {
         // console.dir(user_sid)
     }
     // LOG FLAG
-    USER_LIST_LOG_FLAG = false;
-    MSG_LOG_FLAG = true;
+    USER_LIST_LOG_FLAG = true;
+    MSG_LOG_FLAG = false;
     SERVER_LOG_FLAG = false;
 
     var keepAliveStart = false;
@@ -421,6 +421,7 @@ module.exports = function (server) {
             // console.log(`recive user_list=${msg}`)
             LOG(USER_LIST_LOG_FLAG, `recive user_list=${msg}`)
             var data = JSON.parse(msg);
+            
 
             if (data.id) {
                 user_sid[data.id] = socket.id;
