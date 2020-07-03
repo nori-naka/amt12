@@ -19,7 +19,7 @@ module.exports = function (server) {
         // console.dir(user_sid)
     }
     // LOG FLAG
-    USER_LIST_LOG_FLAG = true;
+    USER_LIST_LOG_FLAG = false;
     MSG_LOG_FLAG = false;
     SERVER_LOG_FLAG = false;
 
