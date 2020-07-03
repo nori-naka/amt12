@@ -339,7 +339,7 @@ var app = new Vue({
 
             if (this.user_list_ttl > 0) {
                 // USER_LIST SEND
-                // LOG(`TTL=${this.user_list_ttl} USER_LIST SEND = ${JSON.stringify({ id: myUid, group_id: group_id, name: user_name })}`);
+                LOG(`TTL=${this.user_list_ttl} USER_LIST SEND = ${JSON.stringify({ id: myUid, group_id: group_id, name: user_name })}`);
                 socketio.emit("user_list", JSON.stringify(
                     {
                         id: myUid,
@@ -349,7 +349,7 @@ var app = new Vue({
                 );
                 this.user_list_ttl--;
             } else {
-                console.log(`TTL=${this.user_list_ttl} this.users is cleared & regist`);
+                LOG(`TTL=${this.user_list_ttl} this.users is cleared & regist`);
                 this.users = [];
                 socketio.connect();
                 // this.regist(myUid, group_id);
@@ -474,6 +474,7 @@ var app = new Vue({
         
     },
     beforeDestroy() {
+        LOG(`------------DESTROY: ${myUid}-------------`)
         Object.keys(this.clearId).forEach(key => {
             clearInterval(this.clearId[key]);
         })

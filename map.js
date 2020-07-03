@@ -76,19 +76,19 @@ function showMap() {
 
     // メインレイヤー
     mainMapLayer = new ol.layer.Tile({
-        // source: new ol.source.XYZ({
-        //     // url: 'https://mt1.google.com/vt/lyrs=m@113&hl=en&&x={x}&y={y}&z={z}&hl=ja&gl=JP',
-        //     // url: 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
-        //     //url: 'https://tile.openstreetmap.jp/{z}/{x}/{y}.png',
-        //     //url: 'https://localhost:10443/OpenStreetMap/{z}/{x}/{y}.png'
-        //     url: '/OpenStreetMap/{z}/{x}/{y}.png',
-        //     attributions: [new ol.Attribution({
-        //         //html: '&copy;OpenStreetMap contributors.',
-        //         html: '&copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.',
-        //         left: "50px"
-        //     })]
-        // }),
-        source: new ol.source.OSM(),
+        source: new ol.source.XYZ({
+            // url: 'https://mt1.google.com/vt/lyrs=m@113&hl=en&&x={x}&y={y}&z={z}&hl=ja&gl=JP',
+            // url: 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
+            //url: 'https://tile.openstreetmap.jp/{z}/{x}/{y}.png',
+            //url: 'https://localhost:10443/OpenStreetMap/{z}/{x}/{y}.png'
+            url: '/OpenStreetMap/{z}/{x}/{y}.png',
+            attributions: [new ol.Attribution({
+                //html: '&copy;OpenStreetMap contributors.',
+                html: '&copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.',
+                left: "50px"
+            })]
+        }),
+        // source: new ol.source.OSM(),
         opacity: 1,
         visible: true,
         //preload: Infinity,

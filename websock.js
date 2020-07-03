@@ -100,8 +100,8 @@ module.exports = function (server) {
         // ログメッセージ
         socket.on("log", function (msg) {
             var data = JSON.parse(msg);
-            // console.log(`from=${data.id} // text=${data.text}`);
-            LOG(MSG_LOG_FLAG, `from=${data.id} // ${data.text}`);
+            console.log(`from=${data.id} // text=${data.text}`);
+            // LOG(MSG_LOG_FLAG, `from=${data.id} // ${data.text}`);
         });
 
         // 登録
@@ -169,20 +169,6 @@ module.exports = function (server) {
 
             } else if (data.type == "video") {
                 console.log(`FILE=${data.name}`)
-                // console.log(data.blob)
-
-                // video file save
-                // var file_content = data.blob.replace(/^data:video\/webm;base64,/, "")
-                // fs.writeFile(`./tmp/${data.name}`, file_content, "base64",
-                //     function (err) {
-                //         if (err) {
-                //             console.log(`socket.on_file: video_file write err=${err}`);
-                //         } else {
-                //             console.log(`FILE WRITE SUCCESS : ${data.name}`)
-                //         }
-                //     }
-                // );
-
                 // position_hash file save
                 position_hash[getUniqueStr()] = {
                     "記録者": data.user_name,
