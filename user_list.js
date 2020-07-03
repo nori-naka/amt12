@@ -347,7 +347,7 @@ var app = new Vue({
             } else {
                 LOG(`TTL=${this.user_list_ttl} this.users is cleared & regist`);
                 this.users = [];
-                socketio.diconnect();
+                socketio.disconnect();
                 // this.regist(myUid, group_id);
                 this.user_list_ttl = this.TTL_VAL;
             }
