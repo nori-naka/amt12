@@ -821,6 +821,7 @@ function onReceiveRenew(msg) {
         addMapIcon(userId, serverData[userId]);
     });
 
+    LOG(`ON RENEW = ${msg}`)
     // サーバーのデータを現在ユーザデータとする。
     users = JSON.parse(msg);
 }
