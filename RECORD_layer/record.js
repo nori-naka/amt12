@@ -50,7 +50,9 @@ const Record = function (stream, id) {
     this.recorder.ondataavailable = ev => {
         chunks.push(ev.data);
     }
-    this.recorder.onstart = ev => { if (this.callback.start) this.callback.start() };
+    this.recorder.onstart = ev => {
+        if (this.callback.start) this.callback.start()
+    };
     this.recorder.onstop = ev => {
         if (this.callback.stop) this.callback.stop();
         if (this.callback.error) this.callback.error();

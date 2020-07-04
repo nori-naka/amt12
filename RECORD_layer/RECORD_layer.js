@@ -64,7 +64,9 @@ RECORD_layer.add = function () {
             } else {
                 try {
                     RECORD_layer.record = new Record(local_stream, myUid);
-                    RECORD_layer.record.on("start", RECORD_layer.start_effect);
+                    
+                    RECORD_layer.start_effect();
+                    // RECORD_layer.record.on("start", RECORD_layer.start_effect);
                     RECORD_layer.record.on("stop", RECORD_layer.stop_effect);
                     RECORD_layer.record.on("error", RECORD_layer.stop_effect);
                     RECORD_layer.record.start();

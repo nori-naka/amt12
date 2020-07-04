@@ -30,3 +30,9 @@ const hide_modal = function () {
     is_serv_connectivity = true;
 }
 
+const show_msg_dialog = (msg) => {
+    show_modal("AirMultiTalk", msg);
+    setTimeout(() => {
+        hide_modal();
+    }, 3000);
+}
