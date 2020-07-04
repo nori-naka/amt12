@@ -271,44 +271,42 @@ var app = new Vue({
             }
         }, false)
 
-        this.$nextTick(() => {
-            socketio.on("req-regist", (msg) => {
-                console.log(`recive req-regist : ${msg}`);
-                this.regist(myUid, group_id);
-                if (modalArea.classList.contains("is-show")) {
-                    modalArea.classList.remove('is-show');
-                }
-            });
-            socketio.on("user_list", (msg) => {
-                const data = JSON.parse(msg);
-                LOG(`ON USER_LIST:${msg}`);
+        socketio.on("req-regist", (msg) => {
+            console.log(`recive req-regist : ${msg}`);
+            this.regist(myUid, group_id);
+            if (modalArea.classList.contains("is-show")) {
+                modalArea.classList.remove('is-show');
+            }
+        });
+        socketio.on("user_list", (msg) => {
+            const data = JSON.parse(msg);
+            LOG(`ON USER_LIST:${msg}`);
 
-                delete data[myUid];
-                this.users = Object.keys(data).map(id => {
-                    return { id: id, ttl: data[id].ttl, name: data[id].name }
-                });
-                this.user_list_ttl = this.TTL_VAL;
+            delete data[myUid];
+            this.users = Object.keys(data).map(id => {
+                return { id: id, ttl: data[id].ttl, name: data[id].name }
             });
-            socketio.on("disconnect", (msg) => {
-                console.log(`ON DISCONNECT: ${msg}`);
-                this.users = [];
-                socketio.connect();
-            });
+            this.user_list_ttl = this.TTL_VAL;
+        });
+        socketio.on("disconnect", (msg) => {
+            console.log(`ON DISCONNECT: ${msg}`);
+            this.users = [];
+            socketio.connect();
+        });
 
-            socketio.on("disconnected", (msg) => {
-                const data = JSON.parse(msg);
-                console.log(`ON DISCONNECTED by ${data.id}`);
-            });
+        socketio.on("disconnected", (msg) => {
+            const data = JSON.parse(msg);
+            console.log(`ON DISCONNECTED by ${data.id}`);
+        });
 
-            socketio.on("publish", msg => {
-                const data = JSON.parse(msg);
+        socketio.on("publish", msg => {
+            const data = JSON.parse(msg);
 
-                const remote_user = this.$children.find(child => { return child.remote_id == data.src });
-                if (remote_user) {
-                    remote_user.peer.recv_msg(msg);
-                }
-            });
-        })
+            const remote_user = this.$children.find(child => { return child.remote_id == data.src });
+            if (remote_user) {
+                remote_user.peer.recv_msg(msg);
+            }
+        });
 
         this.mic_btn_elm.addEventListener("touchstart", this.audio_start, false);
         this.mic_btn_elm.addEventListener("touchend", this.audio_stop, false);
@@ -399,9 +397,7 @@ var app = new Vue({
         },
         audio_start(ev) {
             ev.preventDefault();
-            // if (!this.$refs.remote_users) return;
-            
-            // if (this.audio_on_flag) return;
+
             this.audio_on_flag = true;
 
             this.mic_btn_elm.removeEventListener("mousedown", this.audio_start, false);
@@ -423,21 +419,10 @@ var app = new Vue({
             this.mic_btn_elm.classList.remove("red_background");
             // if (!this.$refs.remote_users) return;
 
-            // console.log("--------------------------------------------------------------------")
-            // this.$refs.remote_users.forEach(remote_user => {
-            //     remote_user.peer.pc.getTransceivers().forEach(t => {
-            //         if (!t || !t.sender || !t.sender.track) return;
-            //         console.log(`${remote_user.user.name} : ${t.sender.track.kind} = ${t.currentDirection}: ${t.sender.track.enabled}`)
-            //     });
-            // })
-            // console.log("--------------------------------------------------------------------")
-
             this.audio_on_flag = false;
             this.$refs.remote_users.forEach(remote_user => {
                 remote_user.peer.call_out("audio");
             })
-            // this.peer.call_out("audio");
-            // this.peer.call_out_force("audio");
         },
 
         set_video_on_off(showed, id) {
