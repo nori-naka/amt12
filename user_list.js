@@ -280,7 +280,7 @@ var app = new Vue({
         });
         socketio.on("user_list", (msg) => {
             const data = JSON.parse(msg);
-            LOG(`ON USER_LIST:${msg}`);
+            // LOG(`ON USER_LIST:${msg}`);
 
             delete data[myUid];
             this.users = Object.keys(data).map(id => {

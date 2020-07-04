@@ -155,6 +155,7 @@ export function P2P(args) {
             trcv.direction = "sendonly";
             trcv.sender.replaceTrack(track);
           }
+          LOG(`offer_dir=${local_direction} trcv.dir=${trcv.direction}`);
         } else {
           // ------------------------- VIDEO ------------------------
           if (local_direction == "LOCAL_STOP") {
