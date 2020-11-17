@@ -5,7 +5,7 @@
     "node": "10.x",
     "npm": "6.x"
   },
-  "script": {
+  "scripts": {
     "start": "node rhttps.js"
   },
   "dependencies": {
